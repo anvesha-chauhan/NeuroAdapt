@@ -69,10 +69,17 @@ To use NeuroAdapt easily, you must pin it:
 2. Scroll to find **NeuroAdapt**.
 3. **Click the Pin icon** next to it so it stays permanently pinned to your toolbar!
 
-### Step 6: Configure & Save Settings
-1. **API Setup:** Right-click the newly pinned NeuroAdapt icon and select **Options**. Select your provider (OpenAI / Anthropic) and paste your secure API key. *Note: Keys are safely saved locally.*
-2. **Personalize UI:** Click the pinned NeuroAdapt icon to open the main window. Change your Neuro-Profile (ADHD, Dyslexia, etc.), tweak Sensory Themes, and adjust Simplification levels. 
-3. **Saved Automatically:** You can now close the menu! Every setting you pick is instantly **saved locally** and will persist as you navigate the web. 
+### Step 6: Acquiring & Saving Your API Key (Core Step!)
+To power the AI simplification features, you need an API key. We support OpenAI, Anthropic, or OpenRouter!
+1. **Get a Key:** For example, go to [OpenRouter.ai](https://openrouter.ai/), create an account, and generate an API key. OpenRouter is highly recommended because it gives access to cheap and fast models!
+2. **Open Extension Options:** Click the puzzle-piece icon in your browser, click the three dots next to NeuroAdapt, and select **Options**. (Alternatively, go to `chrome://extensions/`, click **Details** under NeuroAdapt, and select **Extension options**). This will open the settings page where you can fill in your API key.
+3. **Add Your Key & Version:** 
+   - If using OpenRouter, select the **Custom** provider from the dropdown. 
+   - Look for the **Base URL (custom only)** text field and type exactly: `https://openrouter.ai/api/v1`
+   - Look for the **API key** password field and paste your private API key directly into it.
+   - For the **Model** text field, enter your chosen OpenRouter model string (e.g., `openai/gpt-4o-mini` or `anthropic/claude-3-haiku`).
+   *(Note: All API keys are stored 100% locally and securely inside your browser.)*
+4. **Saved Automatically:** Click **Save**. Note that any visual UI personalizations you make later in the pop-up (like Neuro-Profiles or Themes) are also instantly saved locally and persist as you navigate!
 
 ### Step 7: Test it Out!
 1. Go to any text-heavy article (like Wikipedia).
@@ -97,4 +104,3 @@ NeuroAdapt/
 ```
 
 ---
-
