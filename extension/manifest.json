@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "NeuroAdapt – AI-Powered Cognitive Accessibility Engine",
+  "version": "2.0.0",
+  "description": "Feature-based cognitive load analysis plus LLM simplification and summarization for neuro-inclusive reading.",
+  "permissions": ["storage"],
+  "host_permissions": ["<all_urls>"],
+  "action": {
+    "default_title": "NeuroAdapt — open or close panel"
+  },
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "options_page": "options.html",
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"],
+      "css": ["styles.css"],
+      "run_at": "document_idle",
+      "all_frames": false
+    }
+  ]
+}

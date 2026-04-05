@@ -1,0 +1,24 @@
+NeuroAdapt v2 — evaluation notes (scores = formula on live DOM; LLM changes affect sentence/DOM-derived terms)
+
+Wikipedia article (en): high DOM → high baseline; after Fix + LLM on dense paragraphs, long-sentence count and avg words/sentence typically drop → large relative improvement on text-heavy regions.
+
+News homepage: many short UI strings + high DOM; LLM targets only long/dense blocks; improvement mix of layout + selective simplification.
+
+Long-form blog: strong LLM impact on body copy; score reduction correlates with paragraphs rewritten.
+
+Example format (illustrative — re-measure on your machine):
+
+Website: Wikipedia
+Before: 380.0
+After: 165.0
+Improvement: 56.6%
+
+Website: News site
+Before: 260.0
+After: 112.0
+Improvement: 56.9%
+
+Website: Blog
+Before: 62.0
+After: 28.0
+Improvement: 54.8%

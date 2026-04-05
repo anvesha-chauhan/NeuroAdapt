@@ -1,0 +1,704 @@
+/* Floating widget: viewport-fixed host; direct child of body only; children re-enable pointer-events */
+#neuroadapt-widget {
+  position: fixed !important;
+  z-index: 2147483640 !important;
+  max-width: 300px;
+  width: max(240px, calc(100% - 20px));
+  pointer-events: none;
+  margin: 0 !important;
+  inset: auto;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  isolation: isolate;
+  contain: layout style;
+  --na-bg: rgba(14, 16, 22, 0.98);
+  --na-fg: #eef0f4;
+  --na-muted: #9aa3b2;
+  --na-accent: #7c5cff;
+  --na-border: rgba(255, 255, 255, 0.12);
+  --na-card: rgba(255, 255, 255, 0.04);
+}
+
+#neuroadapt-widget[data-reduce-motion="1"],
+#neuroadapt-widget[data-reduce-motion="1"] * {
+  transition: none !important;
+  animation: none !important;
+}
+
+#neuroadapt-widget.neuroadapt-root--enter {
+  opacity: 0;
+  transform: translateY(8px) scale(0.98);
+}
+
+#neuroadapt-widget:not(.neuroadapt-root--enter) {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  transition:
+    opacity 0.22s ease,
+    transform 0.22s ease,
+    width 0.2s ease,
+    min-width 0.2s ease;
+}
+
+#neuroadapt-widget.neuroadapt-root--dragging {
+  transition: none !important;
+}
+
+#neuroadapt-widget[data-theme="pastel"] {
+  --na-bg: #f7f4ff;
+  --na-fg: #2b2839;
+  --na-muted: #6b6578;
+  --na-accent: #7c5cff;
+  --na-border: rgba(124, 92, 255, 0.22);
+  --na-card: rgba(124, 92, 255, 0.08);
+}
+
+#neuroadapt-widget[data-theme="contrast"] {
+  --na-bg: #000000;
+  --na-fg: #ffff00;
+  --na-muted: #ffffff;
+  --na-accent: #00ffff;
+  --na-border: #ffff00;
+  --na-card: rgba(255, 255, 0, 0.12);
+}
+
+#neuroadapt-widget > * {
+  pointer-events: auto;
+  box-sizing: border-box;
+}
+
+#neuroadapt-widget.neuroadapt-root--collapsed {
+  width: 52px;
+  min-width: 52px;
+  max-width: 52px;
+}
+
+#neuroadapt-panel.neuroadapt-surface,
+#neuroadapt-panel {
+  width: 100%;
+  max-height: 520px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  z-index: 1;
+  background: var(--na-bg);
+  color: var(--na-fg);
+  border: 1px solid var(--na-border);
+  border-radius: 18px;
+  box-shadow:
+    0 20px 56px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(124, 92, 255, 0.1),
+    0 1px 0 rgba(255, 255, 255, 0.04) inset;
+  transition: opacity 0.2s ease, transform 0.2s ease, box-shadow 0.25s ease;
+}
+
+.neuroadapt-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 10px 8px 12px;
+  border-bottom: 1px solid var(--na-border);
+  flex-shrink: 0;
+  cursor: grab;
+  user-select: none;
+}
+
+.neuroadapt-panel-header:active {
+  cursor: grabbing;
+}
+
+.neuroadapt-drag-handle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex: 1;
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--na-fg);
+}
+
+.neuroadapt-drag-grip {
+  opacity: 0.45;
+  font-size: 12px;
+  letter-spacing: -2px;
+}
+
+.neuroadapt-brand {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.neuroadapt-panel-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.neuroadapt-icon-btn {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 8px;
+  background: var(--na-card);
+  color: var(--na-fg);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.neuroadapt-icon-btn:hover {
+  background: rgba(124, 92, 255, 0.25);
+}
+
+.neuroadapt-icon-btn--close:hover {
+  background: rgba(239, 68, 68, 0.35);
+}
+
+.neuroadapt-panel-scroll {
+  padding: 12px 14px 14px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  flex: 1;
+  min-height: 0;
+}
+
+.neuroadapt-fab {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(124, 92, 255, 0.55);
+  background: linear-gradient(145deg, #2a2540 0%, #1a1e28 100%);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.4);
+  font-size: 24px;
+  line-height: 1;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.neuroadapt-fab:active {
+  cursor: grabbing;
+}
+
+.neuroadapt-fab:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 32px rgba(124, 92, 255, 0.35);
+}
+
+#neuroadapt-widget[data-theme="pastel"] .neuroadapt-fab {
+  background: linear-gradient(145deg, #ede8ff 0%, #e0d6ff 100%);
+  border-color: rgba(124, 92, 255, 0.4);
+}
+
+#neuroadapt-widget[data-theme="contrast"] .neuroadapt-fab {
+  background: #000;
+  border-color: #ff0;
+}
+
+#neuroadapt-panel * {
+  box-sizing: border-box;
+}
+
+.neuroadapt-sub {
+  font-size: 11px;
+  color: var(--na-muted);
+  margin-bottom: 10px;
+}
+
+.neuroadapt-stress-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.neuroadapt-stress-badge {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.neuroadapt-score-line {
+  font-variant-numeric: tabular-nums;
+  margin-bottom: 8px;
+  color: var(--na-fg);
+  opacity: 0.92;
+  font-size: 12.5px;
+}
+
+.neuroadapt-smart-hint {
+  font-size: 12px;
+  line-height: 1.45;
+  color: var(--na-fg);
+  opacity: 0.88;
+  padding: 10px 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  background: var(--na-card);
+  border: 1px solid var(--na-border);
+  letter-spacing: 0.01em;
+}
+
+.neuroadapt-smart-hint[hidden] {
+  display: none !important;
+}
+
+.neuroadapt-narrative {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--na-muted);
+  margin-bottom: 10px;
+  padding: 10px;
+  background: var(--na-card);
+  border-radius: 10px;
+  border-left: 3px solid var(--na-accent);
+}
+
+.neuroadapt-explain-title {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--na-muted);
+  margin: 6px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.neuroadapt-explanation {
+  margin: 0 0 10px 18px;
+  padding: 0;
+  color: var(--na-muted);
+  font-size: 12.5px;
+}
+
+.neuroadapt-explanation li {
+  margin: 4px 0;
+}
+
+.neuroadapt-primary-chip {
+  width: 100%;
+  padding: 10px 12px;
+  margin-bottom: 8px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #5b47d4 0%, #7c5cff 100%);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: filter 0.15s ease, transform 0.08s ease;
+}
+
+.neuroadapt-primary-chip:hover {
+  filter: brightness(1.06);
+}
+
+.neuroadapt-primary-chip:active {
+  transform: translateY(1px);
+}
+
+.neuroadapt-section-out {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  min-height: 40px;
+  max-height: 180px;
+  overflow-y: auto;
+  font-size: 12.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--na-fg);
+  background: var(--na-card);
+  border: 1px solid var(--na-border);
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.neuroadapt-checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--na-muted);
+  margin: 8px 0;
+  cursor: pointer;
+}
+
+.neuroadapt-checkbox-row input {
+  margin-top: 3px;
+  accent-color: var(--na-accent);
+  flex-shrink: 0;
+}
+
+#neuroadapt-fix-btn {
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #7c5cff 0%, #5a3fd4 100%);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 11px 12px;
+  cursor: pointer;
+  margin: 10px 0 6px;
+  transition: transform 0.08s ease, filter 0.15s ease;
+}
+
+#neuroadapt-fix-btn:hover {
+  filter: brightness(1.06);
+}
+
+#neuroadapt-fix-btn:active {
+  transform: translateY(1px);
+}
+
+#neuroadapt-fix-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.neuroadapt-focus-note {
+  font-size: 12px;
+  color: #f0c674;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  background: rgba(240, 198, 116, 0.1);
+  border-radius: 8px;
+  border: 1px solid rgba(240, 198, 116, 0.25);
+}
+
+.neuroadapt-compare {
+  font-size: 12.5px;
+  margin-bottom: 8px;
+  padding: 10px;
+  background: rgba(76, 175, 80, 0.08);
+  border-radius: 10px;
+  border: 1px solid rgba(76, 175, 80, 0.25);
+  color: #c8e6c9;
+}
+
+#neuroadapt-widget[data-theme="pastel"] .neuroadapt-compare {
+  color: #2d5a32;
+  background: rgba(76, 175, 80, 0.12);
+}
+
+.neuroadapt-compare strong {
+  color: #a5d6a7;
+}
+
+#neuroadapt-widget[data-theme="pastel"] .neuroadapt-compare strong {
+  color: #1b5e20;
+}
+
+.neuroadapt-changes {
+  font-size: 12.5px;
+  margin-bottom: 8px;
+  padding: 10px;
+  background: rgba(124, 92, 255, 0.08);
+  border-radius: 10px;
+  border: 1px solid rgba(124, 92, 255, 0.2);
+  color: #d4c4ff;
+}
+
+.neuroadapt-changes .neuroadapt-change-line {
+  margin: 4px 0;
+}
+
+.neuroadapt-engagement {
+  font-size: 11.5px;
+  color: var(--na-accent);
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: var(--na-card);
+  border: 1px solid var(--na-border);
+  line-height: 1.4;
+}
+
+.neuroadapt-memory {
+  font-size: 11.5px;
+  color: var(--na-muted);
+  padding: 6px 0 8px;
+  border-top: 1px solid var(--na-border);
+}
+
+.neuroadapt-quick-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.neuroadapt-chip {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 7px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--na-border);
+  background: var(--na-card);
+  color: var(--na-fg);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.neuroadapt-chip:hover {
+  border-color: var(--na-accent);
+  background: rgba(124, 92, 255, 0.15);
+}
+
+.neuroadapt-output {
+  margin: 0 0 12px;
+  padding: 10px 12px;
+  min-height: 48px;
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 12.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+  color: var(--na-fg);
+  background: var(--na-card);
+  border: 1px solid var(--na-border);
+  border-radius: 10px;
+  font-family: inherit;
+}
+
+.neuroadapt-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.neuroadapt-label {
+  font-size: 11px;
+  color: var(--na-muted);
+  margin-bottom: 4px;
+}
+
+.neuroadapt-select {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid var(--na-border);
+  background: var(--na-card);
+  color: var(--na-fg);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.neuroadapt-select:focus {
+  outline: 2px solid var(--na-accent);
+  outline-offset: 1px;
+}
+
+.neuroadapt-toggle-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--na-muted);
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.neuroadapt-toggle-row input {
+  margin-top: 3px;
+  accent-color: var(--na-accent);
+  flex-shrink: 0;
+}
+
+.neuroadapt-secondary-btn {
+  width: 100%;
+  border: 1px solid var(--na-border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--na-fg);
+  opacity: 0.92;
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 10px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.neuroadapt-secondary-btn:hover {
+  background: var(--na-card);
+}
+
+.neuroadapt-ai-status {
+  font-size: 12px;
+  color: #b8a8ff;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background: rgba(124, 92, 255, 0.12);
+  border: 1px solid rgba(124, 92, 255, 0.28);
+  line-height: 1.4;
+}
+
+.neuroadapt-ai-status--error {
+  color: #fecaca;
+  background: rgba(239, 68, 68, 0.12);
+  border-color: rgba(239, 68, 68, 0.35);
+}
+
+.neuroadapt-ai-status[hidden] {
+  display: none !important;
+}
+
+/* Reading focus strip — paragraph + list items; calm motion */
+html.neuroadapt-lens-root p.neuroadapt-lens-dim,
+html.neuroadapt-lens-root li.neuroadapt-lens-dim {
+  opacity: 0.36;
+  filter: saturate(0.9);
+  transition: opacity 0.28s ease, filter 0.28s ease;
+}
+
+html.neuroadapt-lens-root p.neuroadapt-lens-focus,
+html.neuroadapt-lens-root li.neuroadapt-lens-focus {
+  opacity: 1 !important;
+  filter: none !important;
+  transition:
+    opacity 0.28s ease,
+    box-shadow 0.28s ease,
+    filter 0.28s ease;
+  box-shadow:
+    0 0 0 1px rgba(124, 92, 255, 0.38),
+    0 10px 32px rgba(124, 92, 255, 0.09);
+  border-radius: 6px;
+  outline: none;
+}
+
+#neuroadapt-panel p.neuroadapt-lens-dim,
+#neuroadapt-panel li.neuroadapt-lens-dim,
+#neuroadapt-panel p.neuroadapt-lens-focus,
+#neuroadapt-panel li.neuroadapt-lens-focus {
+  opacity: 1 !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+/* Optional comfort spacing — targets common content wrappers only */
+body.neuroadapt-comfort-spacing main p,
+body.neuroadapt-comfort-spacing article p,
+body.neuroadapt-comfort-spacing [role="main"] p {
+  line-height: 1.75 !important;
+}
+
+/* Focus mode layer — soften chrome; elevate main column (DOM preserved) */
+/* Visual softening only — keep pointer-events so menus/links still work */
+html.neuroadapt-focus-mode-active .neuroadapt-focus-chrome {
+  opacity: 0.32;
+  filter: blur(0.5px);
+  transition: opacity 0.38s ease, filter 0.38s ease;
+}
+
+html.neuroadapt-focus-mode-active .neuroadapt-focus-main {
+  max-width: 720px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 2rem 1.75rem 2.5rem !important;
+  box-sizing: border-box !important;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 18px 56px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  transition: max-width 0.38s ease, box-shadow 0.38s ease, padding 0.38s ease;
+}
+
+html.neuroadapt-focus-mode-active body.neuroadapt-reading .neuroadapt-focus-main {
+  max-width: 760px !important;
+}
+
+html.neuroadapt-focus-mode-active body.neuroadapt-quick-scan .neuroadapt-focus-main {
+  max-width: 680px !important;
+}
+
+.neuroadapt-readable-sub p,
+.neuroadapt-readable-sub li,
+.neuroadapt-readable-sub td,
+.neuroadapt-readable-sub th,
+.neuroadapt-readable-main p,
+.neuroadapt-readable-main li {
+  font-size: 18px !important;
+  line-height: 1.65 !important;
+}
+
+.neuroadapt-readable-sub p,
+.neuroadapt-readable-sub li,
+.neuroadapt-readable-main p,
+.neuroadapt-readable-main li {
+  margin-bottom: 0.95em !important;
+}
+
+.neuroadapt-body-root.neuroadapt-layout-active {
+  margin: 0 !important;
+}
+
+/* Legacy class names from older builds (no-op if unused) */
+.neuroadapt-focus-content {
+  max-width: 720px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.neuroadapt-hidden-distraction {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #neuroadapt-widget,
+  .neuroadapt-fab,
+  #neuroadapt-panel,
+  html.neuroadapt-lens-root p.neuroadapt-lens-dim,
+  html.neuroadapt-lens-root li.neuroadapt-lens-dim,
+  html.neuroadapt-lens-root p.neuroadapt-lens-focus,
+  html.neuroadapt-lens-root li.neuroadapt-lens-focus,
+  html.neuroadapt-focus-mode-active .neuroadapt-focus-chrome,
+  html.neuroadapt-focus-mode-active .neuroadapt-focus-main {
+    transition: none !important;
+    animation: none !important;
+  }
+
+  html.neuroadapt-focus-mode-active .neuroadapt-focus-chrome {
+    filter: none;
+    opacity: 0.36;
+  }
+}
+
+/* Neuro-Profile Engine Styles */
+body.neuroadapt-profile-dyslexia::after {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #fcf9f2;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  z-index: 2147483646; /* Just under NeuroAdapt UI */
+}
+
+body.neuroadapt-profile-dyslexia .neuroadapt-readable-main,
+body.neuroadapt-profile-dyslexia .neuroadapt-readable-main *,
+body.neuroadapt-profile-dyslexia .neuroadapt-focus-main,
+body.neuroadapt-profile-dyslexia .neuroadapt-focus-main * {
+  font-family: "Comic Sans MS", "Comic Sans", "Arial", sans-serif !important;
+  letter-spacing: 0.05em !important;
+  word-spacing: 0.1em !important;
+}
