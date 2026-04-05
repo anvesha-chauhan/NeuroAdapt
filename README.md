@@ -98,4 +98,3 @@ NeuroAdapt/
 
 ---
 
-*NeuroAdapt - Building a bridge for neuro-inclusive reading experiences.*
