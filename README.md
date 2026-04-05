@@ -1,69 +1,101 @@
-# NeuroAdapt – AI-Powered Cognitive Accessibility Engine
+# NeuroAdapt
 
-This system combines feature-based cognitive load analysis with AI-powered text simplification and summarization to create a neuro-inclusive browsing experience.
+> **An intelligent cognitive accessibility engine that dynamically restructures, simplifies, and optimizes web content to create a neuro-inclusive browsing experience.**
 
-## Description
+---
 
-NeuroAdapt is a Chrome extension that **measures** how demanding a page is to read, **explains why** using interpretable signals, **transforms** layout for readability, and uses a **real LLM** (OpenAI, Anthropic, or OpenAI-compatible APIs) to **simplify** difficult passages and **summarize** the main content. It keeps **before vs after** scores, **auto-focus** messaging, **personalization** via `localStorage`, and a clear **“changes applied”** checklist.
+## 🖼️ Visual Demo
 
-## AI integration
+### Before & After NeuroAdapt
+*Watch how NeuroAdapt dynamically removes distractions, structures the document, and replaces dense text blocks with simple, readable formatting.*
 
-- **Where it runs:** All `fetch` calls happen in **`service-worker.js`** so the API key is not injected into web pages.
-- **Modular entry point:** `callAI(prompt, systemInstruction)` performs async `fetch` to the configured provider and returns `{ ok, text?, error? }`.
-- **Dev placeholder:** The constant `YOUR_API_KEY_HERE` is used when no key is stored — requests are **not** sent until you save a real key in **⚙️ AI model settings** (extension Options). **Do not commit production keys** in source; use Options + `chrome.storage.local`.
+| **Before NeuroAdapt** | **After NeuroAdapt** |
+| :---: | :---: |
+| ![Before](demo/before.png) | ![After](demo/after.png) |
 
-### How simplification works
+### Extension Interface
+*Our clean, intuitive interface allows users to control sensory themes, toggle bionic reading, and dynamically request AI simplifications.*
 
-1. **Smart extraction:** `ContentExtractorAgent` targets `main`, `article`, `[role=main]`, Wikipedia `#mw-content-text`, etc., and skips `nav`, `footer`, `aside`, headers, and ad-like class/id hints.
-2. **Selective LLM use:** Only **paragraphs / list items** (and similar blocks) that are **dense** (≥120 words) or contain a sentence **>20 words** are sent — up to **22 blocks** per run to cap cost.
-3. **Prompt:** The service worker sends the mandated instruction (short sentences, simple words, preserve meaning, **level**: light / medium / aggressive).
-4. **Truncation:** Each block is capped at **~3500** characters before the API call.
-5. **Fallback:** If the key is missing or the API errors, **`simplifyTextHeuristic`** (local rules) rewrites that block so the page still improves.
+| **Main Controls & Summaries** | **Sensory & Spacing Options** |
+| :---: | :---: |
+| ![Extension Panel 1](demo/panel_1.png) | ![Extension Panel 2](demo/panel_2.png) |
 
-### How summarization works
+---
 
-1. Click **🧠 Summarize Page**.
-2. The same **main-content** extractor gathers headings + paragraphs + list text (capped at **~14k** characters).
-3. The service worker calls `callAI` with the tutor-style prompt (bullet points, short, plain language, beginner-friendly).
-4. The result opens in a **modal**; errors are shown in plain language.
+## 📖 Overview
 
-## Other features (preserved)
+**NeuroAdapt** is a robust browser extension designed to natively adapt web pages for individuals with varying cognitive loads, neurodivergent conditions (like ADHD or Dyslexia), or simply those experiencing digital fatigue. 
 
-- Cognitive load **score** and **🟢🟡🔴** stress indicator  
-- Human-like **narrative** + structured **“why this matters”** bullets  
-- **✨ Fix this page** — distractions removed, layout/readability CSS, then LLM simplification  
-- **Before vs after** score and **improvement %**  
-- **High load** warning and optional **auto-apply** when preferences + habit match  
-- **Learning** line: fix count, mode, simplification level, auto high-load  
+Unlike standard text-to-speech or simple contrast-ratio extensions, NeuroAdapt deeply analyzes the DOM and text complexity. It computes a localized cognitive load score using feature-based heuristics and intelligently steps in with powerful layout alterations and LLM-backed simplification to reduce friction.
 
-## Installation
+## ✨ Core Features
 
-1. Open `chrome://extensions/` → enable **Developer mode** → **Load unpacked** → select `NeuroAdapt/extension`.
-2. Open **⚙️ AI model settings**, choose provider, paste **API key**, set **model** (and **base URL** for custom).
-3. Reload any tab where you want NeuroAdapt to run.
+* **Cognitive Load Analysis**: Automatically evaluates page complexity using DOM density, average words per sentence, and continuous dense block counts.
+* **LLM Content Simplification**: Securely delegates highly complex paragraphs to large language models. It replaces dense technical jargon with approachable, neuro-inclusive language.
+* **Persistent Preferences**: Any changes you make to your **Sensory Theme**, **Neuro-Profile Engine**, or **Focus Mode** are securely saved and remembered across your browsing sessions!
+* **Intelligent Layout Focus**: Dynamically dims navigational chrome, removes intrusive popups dynamically based on z-index heuristics, and isolates the central `<main>` reading container.
+* **Bionic Anchors & Spacing**: Employs evidence-based bionic reading patterns and comfort spacing to guide visual tracking and reduce eye strain.
 
-## Project layout
+---
 
-```
+## 🚀 How to Run the Project (Detailed Step-by-Step)
+
+NeuroAdapt is a native browser extension. You **do not** need to install Node.js, Python, or run any terminal commands to build this application.
+
+Follow these explicit steps to load the extension into your system for judging:
+
+### Step 1: Download & Extract the Code
+1. Clone this repository or download the `.zip` file from the project page.
+2. Unzip the file onto your Desktop or Documents folder. You should see a top-level directory containing the `extension/` folder.
+
+### Step 2: Open Extension Settings in Chrome / Edge
+1. Open up your Chromium-based web browser (Google Chrome, Microsoft Edge, Brave).
+2. Type `chrome://extensions/` into your top URL address bar and press **Enter** (If using Edge, type `edge://extensions/`).
+
+### Step 3: Enable Developer Mode
+1. Look at the top right corner of the Extensions page.
+2. Ensure the toggle switch for **Developer mode** is turned **ON**.
+
+### Step 4: Load the Unpacked Extension
+1. Once Developer mode is activated, a new menu bar will appear at the top left of the page.
+2. Click the button that says **Load unpacked**.
+3. A file browser window will appear. Navigate to the folder you unzipped in Step 1.
+4. Select the **`extension/` folder** specifically (make sure you pick the folder that contains the `manifest.json` file inside it) and click **Select Folder**.
+5. NeuroAdapt will instantly install and appear in your list of extensions!
+
+### Step 5: 📌 Pin the Extension (Crucial Step!)
+To use NeuroAdapt easily, you must pin it:
+1. Click the **puzzle-piece** "Extensions" icon in the top right of your browser toolbar.
+2. Scroll to find **NeuroAdapt**.
+3. **Click the Pin icon** next to it so it stays permanently pinned to your toolbar!
+
+### Step 6: Configure & Save Settings
+1. **API Setup:** Right-click the newly pinned NeuroAdapt icon and select **Options**. Select your provider (OpenAI / Anthropic) and paste your secure API key. *Note: Keys are safely saved locally.*
+2. **Personalize UI:** Click the pinned NeuroAdapt icon to open the main window. Change your Neuro-Profile (ADHD, Dyslexia, etc.), tweak Sensory Themes, and adjust Simplification levels. 
+3. **Saved Automatically:** You can now close the menu! Every setting you pick is instantly **saved locally** and will persist as you navigate the web. 
+
+### Step 7: Test it Out!
+1. Go to any text-heavy article (like Wikipedia).
+2. Click the NeuroAdapt puzzle icon to inject the custom UI onto your screen.
+3. Test out **Reduce Distractions**, Sensory Profiles, and **Make This Easier** to witness the AI simplification!
+
+---
+
+## 🏗 System Architecture
+
+```text
 NeuroAdapt/
 ├── extension/
-│   ├── manifest.json
-│   ├── service-worker.js   ← callAI, LLM fetch
-│   ├── options.html
-│   ├── options.js
-│   ├── content.js
-│   └── styles.css
-├── evaluation/
-│   └── results.txt
+│   ├── manifest.json       # Extension configurations and permission scopes
+│   ├── service-worker.js   # Background secure LLM communication & state
+│   ├── options.html        # Secure key and backend configuration UI
+│   ├── options.js          # Controller for options.html
+│   ├── content.js          # DOM heuristics, simplification engines & UI injection
+│   └── styles.css          # Injected focus-mode styling and component definitions
+├── demo/                   # Demo imagery for the README
 └── README.md
 ```
 
-## Limitations
+---
 
-- LLM output can occasionally soften nuance; review critical content (medical, legal).
-- Replacing `textContent` on blocks **drops inline links/formatting** inside those blocks for simplicity.
-- Very large SPAs may shift DOM after analysis; re-run if needed.
-
-## Evaluation
-
-See `evaluation/results.txt` for example before/after score deltas (scores depend on DOM and text at capture time).
+*NeuroAdapt - Building a bridge for neuro-inclusive reading experiences.*
