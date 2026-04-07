@@ -1,24 +1,19 @@
 # NeuroAdapt
 
-> **An intelligent cognitive accessibility engine that dynamically restructures, simplifies, and optimizes web content to create a neuro-inclusive browsing experience.**
+## 🎬 Demo Video
 
----
 
-## 🖼️ Visual Demo
+**👉 [Watch the Full Demo Video Here](https://replace-this-link.com) 👈**
 
-### Before & After NeuroAdapt
-*Watch how NeuroAdapt dynamically removes distractions, structures the document, and replaces dense text blocks with simple, readable formatting.*
-
-| **Before NeuroAdapt** | **After NeuroAdapt** |
-| :---: | :---: |
-| ![Before](demo/before.png) | ![After](demo/after.png) |
 
 ### Extension Interface
-*Our clean, intuitive interface allows users to control sensory themes, toggle bionic reading, and dynamically request AI simplifications.*
+A quick look at our menu for changing themes, bionic reading, and AI simplifications:
 
-| **Main Controls & Summaries** | **Sensory & Spacing Options** |
+| **Main Controls** | **Sensory Options** |
 | :---: | :---: |
 | ![Extension Panel 1](demo/panel_1.png) | ![Extension Panel 2](demo/panel_2.png) |
+
+> **An intelligent cognitive accessibility engine that dynamically restructures, simplifies, and optimizes web content to create a neuro-inclusive browsing experience.**
 
 ---
 
@@ -90,17 +85,48 @@ To power the AI simplification features, you need an API key. We support OpenAI,
 
 ## 🏗 System Architecture
 
+Here is a simple look at how the different pieces of our extension fit together.
+
+### 1. Component Flow
+```mermaid
+flowchart LR
+    Page["Web Page (DOM)"] <--> Script["Content Script"]
+    Script <--> UI["Extension Popup UI"]
+    Script <--> Background["Service Worker (Background)"]
+    Background <--> Settings["Local Storage"]
+```
+
+### 2. AI Processing Flow
+```mermaid
+flowchart TD
+    A["Messy Web Text"] --> B["Content Script Extracts Text"]
+    B --> C["Service Worker gets API Key"]
+    C --> D{"AI Model (e.g. OpenRouter)"}
+    D --> E["Simplified Plain English"]
+    E --> F["Text Replaced in Browser"]
+```
+
+### Directory Structure
+
 ```text
 NeuroAdapt/
-├── extension/
-│   ├── manifest.json       # Extension configurations and permission scopes
-│   ├── service-worker.js   # Background secure LLM communication & state
-│   ├── options.html        # Secure key and backend configuration UI
-│   ├── options.js          # Controller for options.html
-│   ├── content.js          # DOM heuristics, simplification engines & UI injection
-│   └── styles.css          # Injected focus-mode styling and component definitions
-├── demo/                   # Demo imagery for the README
-└── README.md
+├── README.md
+├── demo/                   # Images and demo visuals
+│   ├── after.png
+│   ├── before.png
+│   ├── panel_1.png
+│   └── panel_2.png
+├── evaluation/             # Test results from our model evaluation
+│   └── results.txt
+├── extension/              # The actual Chrome Extension code!
+│   ├── manifest.json       # Configs & permissions
+│   ├── service-worker.js   # Background secure API caller
+│   ├── options.html        # Settings page for API keys
+│   ├── options.js          
+│   ├── content.js          # DOM heuristics & simplification engines
+│   ├── styles.css          # Injected reading UI classes
+│   └── icons/              # Browser toolbar graphics
+└── Documents.code-workspace
 ```
 
 ---
