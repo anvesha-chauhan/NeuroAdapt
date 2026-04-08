@@ -3,7 +3,7 @@
 ## 🎬 Demo Video
 
 
-**👉 [Watch the Full Demo Video Here](https://replace-this-link.com) 👈**
+**👉 [Watch the Full Demo Video Here]([https://replace-this-link.com](https://drive.google.com/file/d/1Kxb1zbpIEY8e-dFwppmeXE_BxU3U01xX/view?usp=sharing)) 👈**
 
 
 ### Extension Interface
